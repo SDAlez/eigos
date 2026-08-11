@@ -1,0 +1,81 @@
+:root {
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --row-border: #e2e8f0;
+  --row-hover: #f1f5f9;
+  --row-active-bg: #f8fafc;
+  --primary-text: #0f172a;
+  --secondary-text: #64748b;
+  --muted-text: #94a3b8;
+  --accent-color: #2563eb;
+  --accent-light: rgba(37, 99, 235, 0.06);
+  --accent-focus-ring: #2563eb;
+  --error-color: #ef4444;
+  --error-bg: #fef2f2;
+  --success-color: #10b981;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Outfit', 'Inter', system-ui, sans-serif;
+  --font-mono: 'Fira Code', monospace;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.dark-theme {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --card-border: #334155;
+  --row-border: #334155;
+  --row-hover: #1e293b;
+  --row-active-bg: #0f172a;
+  --primary-text: #f8fafc;
+  --secondary-text: #94a3b8;
+  --muted-text: #64748b;
+  --accent-color: #3b82f6;
+  --accent-light: rgba(59, 130, 246, 0.12);
+  --accent-focus-ring: #3b82f6;
+  --error-color: #f87171;
+  --error-bg: rgba(239, 68, 68, 0.15);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-color);
+  color: var(--primary-text);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Application Layout */
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem 1.5rem;
+}
+
+/* Notebook Container */
+.notebook-wrapper {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .app-container {
+    padding: 1rem 0.75rem 2rem 0.75rem;
+  }
+}
