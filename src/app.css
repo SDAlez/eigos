@@ -22,6 +22,8 @@
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
+:root.dark-theme,
+body.dark-theme,
 .dark-theme {
   --bg-color: #0f172a;
   --card-bg: #1e293b;
@@ -47,6 +49,7 @@
   padding: 0;
 }
 
+html,
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-color);

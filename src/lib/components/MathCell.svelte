@@ -1,4 +1,5 @@
 <script>
+  import 'mathlive';
   import { worksheetStore } from '../worksheetStore.svelte.js';
   import { evaluateExpression } from '../mathEngine.js';
 
@@ -202,6 +203,10 @@
     box-shadow: none;
     color: var(--primary-text);
     padding: 0.25rem 0;
+    --color: var(--primary-text);
+    --background: transparent;
+    --mathfield-background: transparent;
+    --placeholder-color: var(--muted-text);
   }
 
   math-field::part(content) {

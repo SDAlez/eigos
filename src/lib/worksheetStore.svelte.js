@@ -2,7 +2,6 @@ import { tick } from 'svelte';
 
 /**
  * @typedef {import('./mathEngine.js').MathCell} MathCell
- * @typedef {import('./mathEngine.js').MathPreset} MathPreset
  */
 
 export const worksheetStore = createWorksheetStore();
@@ -34,16 +33,6 @@ function createWorksheetStore() {
     { id: nextId(), latex: '-2 \\cdot 3', mode: 'auto' }
   ]);
 
-  // Quick Preset Templates
-  /** @type {MathPreset[]} */
-  const presets = [
-    { label: 'Fraction', latex: '18 \\cdot \\frac{45}{24}' },
-    { label: 'Arithmetic', latex: '14 - 15 \\cdot 81' },
-    { label: 'Matrix', latex: '\\begin{bmatrix}1 & 2\\\\3 & 4\\end{bmatrix} + \\begin{bmatrix}5 & 6\\\\7 & 8\\end{bmatrix}' },
-    { label: 'Sin / Trig', latex: '\\sin(\\frac{\\pi}{3})' },
-    { label: 'Square Root', latex: '\\sqrt{144} + 5^2' },
-  ];
-
   return {
     get isDarkMode() { return isDarkMode; },
     set isDarkMode(val) { isDarkMode = val; },
@@ -53,8 +42,6 @@ function createWorksheetStore() {
 
     get cells() { return cells; },
     set cells(val) { cells = val; },
-
-    get presets() { return presets; },
 
     /**
      * Inserts a new math cell after the specified index and shifts focus.
@@ -110,20 +97,6 @@ function createWorksheetStore() {
       });
     },
 
-    /**
-     * Inserts a preset LaTeX expression into the active cell.
-     * @param {string} presetLatex - LaTeX string to insert.
-     * @param {(id: string, latex: string) => void} updateMfFn - Callback to update the math-field.
-     * @returns {void}
-     */
-    insertPreset(presetLatex, updateMfFn) {
-      if (cells[activeIndex]) {
-        cells[activeIndex].latex = presetLatex;
-        if (updateMfFn) {
-          updateMfFn(cells[activeIndex].id, presetLatex);
-        }
-      }
-    },
 
     /**
      * Toggles the display format mode between decimal and fraction for a cell.

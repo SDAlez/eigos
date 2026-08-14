@@ -4,7 +4,6 @@ import { ComputeEngine } from '@cortex-js/compute-engine';
  * @typedef {'decimal' | 'fraction' | 'auto'} FormatMode
  * @typedef {{ id: string, latex: string, mode: FormatMode }} MathCell
  * @typedef {{ text: string, isError: boolean, isLatex: boolean, mode: FormatMode }} EvalResult
- * @typedef {{ label: string, latex: string }} MathPreset
  */
 
 /** @type {ComputeEngine} */
@@ -37,14 +36,6 @@ export function evaluateExpression(latexStr, mode) {
     const numeric = parsed.N();
     const exact = parsed.evaluate();
 
-    // Check if expression is a matrix or list structure
-    const json = exact.json;
-    if (Array.isArray(json) && (json[0] === 'Matrix' || json[0] === 'List')) {
-      let matrixLatex = exact.latex || '';
-      // Format clean bracket matrix output
-      matrixLatex = matrixLatex.replace(/\\bigl\\lbrack/g, '[').replace(/\\bigr\\rbrack/g, ']');
-      return { text: matrixLatex, isError: false, isLatex: true, mode: 'auto' };
-    }
 
     // Handle numeric evaluation
     if (mode === 'decimal' || typeof numeric.json === 'number') {

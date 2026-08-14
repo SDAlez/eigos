@@ -1,13 +1,20 @@
 <script>
   import { onMount, tick } from 'svelte';
+  import 'mathlive';
   import { worksheetStore } from './lib/worksheetStore.svelte.js';
   import Header from './lib/components/Header.svelte';
-  import PresetsBar from './lib/components/PresetsBar.svelte';
   import MathCell from './lib/components/MathCell.svelte';
   import Footer from './lib/components/Footer.svelte';
 
   /** @type {Record<string, any>} */
   let mathfieldRefs = {};
+
+  // Dynamically sync dark theme class to <html> element so full page background updates
+  $effect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.classList.toggle('dark-theme', worksheetStore.isDarkMode);
+    }
+  });
 
   /**
    * Focuses the math-field element corresponding to the given cell ID.
@@ -48,18 +55,6 @@
     mathfieldRefs[id] = node;
   }
 
-  /**
-   * @param {string} id
-   * @param {string} latex
-   */
-  function handleUpdateRefValue(id, latex) {
-    const mf = mathfieldRefs[id];
-    if (mf) {
-      mf.value = latex;
-      mf.focus();
-    }
-  }
-
   onMount(() => {
     // Auto-focus first cell on load
     tick().then(focusFirstCell);
@@ -70,10 +65,6 @@
   <Header 
     focusFirstCell={focusFirstCell}
     focusLastCell={focusLastCell}
-  />
-
-  <PresetsBar 
-    focusActiveCell={handleUpdateRefValue}
   />
 
   <main class="notebook-wrapper" role="region" aria-label="Math Worksheet">
