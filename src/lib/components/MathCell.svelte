@@ -102,7 +102,6 @@
     <span class="cell-index">{index + 1}</span>
     <math-field
       use:setupMathfield
-      placeholder="Type a math expression..."
     ></math-field>
   </div>
 

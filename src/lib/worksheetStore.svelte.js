@@ -28,15 +28,13 @@ function createWorksheetStore() {
   // Initial Cells
   /** @type {MathCell[]} */
   let cells = $state([
-    { id: nextId(), latex: '18 \\cdot \\frac{45}{24}', mode: 'decimal' },
-    { id: nextId(), latex: '14 - 15 \\cdot 81', mode: 'auto' },
-    { id: nextId(), latex: '-2 \\cdot 3', mode: 'auto' }
+    { id: nextId(), latex: '', mode: 'decimal' }
   ]);
 
   return {
     get isDarkMode() { return isDarkMode; },
     set isDarkMode(val) { isDarkMode = val; },
-    
+
     get activeIndex() { return activeIndex; },
     set activeIndex(val) { activeIndex = val; },
 
@@ -51,7 +49,7 @@ function createWorksheetStore() {
      */
     async addCellAfter(index, focusFn) {
       /** @type {MathCell} */
-      const newCell = { id: nextId(), latex: '', mode: 'auto' };
+      const newCell = { id: nextId(), latex: '', mode: 'decimal' };
       cells.splice(index + 1, 0, newCell);
       activeIndex = index + 1;
       await tick();
@@ -90,13 +88,12 @@ function createWorksheetStore() {
      * @returns {void}
      */
     clearAll(focusFn) {
-      cells = [{ id: nextId(), latex: '', mode: 'auto' }];
+      cells = [{ id: nextId(), latex: '', mode: 'decimal' }];
       activeIndex = 0;
       tick().then(() => {
         if (focusFn) focusFn(cells[0].id);
       });
     },
-
 
     /**
      * Toggles the display format mode between decimal and fraction for a cell.

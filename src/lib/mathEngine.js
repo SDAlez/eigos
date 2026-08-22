@@ -17,7 +17,7 @@ const ce = new ComputeEngine();
  */
 export function evaluateExpression(latexStr, mode) {
   if (!latexStr || !latexStr.trim()) {
-    return { text: '', isError: false, isLatex: false, mode: 'auto' };
+    return { text: '', isError: false, isLatex: false, mode: 'decimal' };
   }
 
   try {
@@ -36,24 +36,37 @@ export function evaluateExpression(latexStr, mode) {
     const numeric = parsed.N();
     const exact = parsed.evaluate();
 
+    // Extract numeric value if available (handling numbers, Decimal objects, and irrational constants)
+    /** @type {number | null} */
+    let numVal = null;
+    if (typeof numeric.json === 'number') {
+      numVal = numeric.json;
+    } else if (numeric.json && typeof numeric.json === 'object' && 'num' in numeric.json && typeof numeric.json.num === 'string') {
+      const parsedNum = parseFloat(numeric.json.num);
+      if (!isNaN(parsedNum)) numVal = parsedNum;
+    } else {
+      const val = numeric.valueOf();
+      if (typeof val === 'number' && Number.isFinite(val)) {
+        numVal = val;
+      } else if (Number.isFinite(numeric.re)) {
+        numVal = numeric.re;
+      }
+    }
 
     // Handle numeric evaluation
-    if (mode === 'decimal' || typeof numeric.json === 'number') {
-      const jsonVal = numeric.json;
-      if (typeof jsonVal === 'number') {
-        // Format neatly, trim floating point precision artifacts (e.g. 0.30000000000000004 -> 0.3)
-        const formattedNum = Number.isInteger(jsonVal) 
-          ? jsonVal.toString() 
-          : parseFloat(jsonVal.toFixed(8)).toString();
-        return { text: formattedNum, isError: false, isLatex: false, mode: 'decimal' };
-      }
+    if (numVal !== null) {
+      // Format neatly, trim floating point precision artifacts (e.g. 0.30000000000000004 -> 0.3)
+      const formattedNum = Number.isInteger(numVal) 
+        ? numVal.toString() 
+        : parseFloat(numVal.toFixed(8)).toString();
+      return { text: formattedNum, isError: false, isLatex: false, mode: 'decimal' };
     }
 
     // Fallback to exact LaTeX representation
     let fallbackLatex = exact.latex || String(numeric.json || '');
     fallbackLatex = fallbackLatex.replace(/\\,/g, '');
-    return { text: fallbackLatex, isError: false, isLatex: true, mode: 'auto' };
+    return { text: fallbackLatex, isError: false, isLatex: true, mode: 'decimal' };
   } catch (err) {
-    return { text: 'Syntax Error', isError: true, isLatex: false, mode: 'auto' };
+    return { text: 'Syntax Error', isError: true, isLatex: false, mode: 'decimal' };
   }
 }
