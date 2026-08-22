@@ -44,13 +44,6 @@ export function evaluateExpression(latexStr, mode) {
     } else if (numeric.json && typeof numeric.json === 'object' && 'num' in numeric.json && typeof numeric.json.num === 'string') {
       const parsedNum = parseFloat(numeric.json.num);
       if (!isNaN(parsedNum)) numVal = parsedNum;
-    } else {
-      const val = numeric.valueOf();
-      if (typeof val === 'number' && Number.isFinite(val)) {
-        numVal = val;
-      } else if (Number.isFinite(numeric.re)) {
-        numVal = numeric.re;
-      }
     }
 
     // Handle numeric evaluation
@@ -62,11 +55,9 @@ export function evaluateExpression(latexStr, mode) {
       return { text: formattedNum, isError: false, isLatex: false, mode: 'decimal' };
     }
 
-    // Fallback to exact LaTeX representation
-    let fallbackLatex = exact.latex || String(numeric.json || '');
-    fallbackLatex = fallbackLatex.replace(/\\,/g, '');
-    return { text: fallbackLatex, isError: false, isLatex: true, mode: 'decimal' };
+    // Fallback when evaluation does not produce a real number (e.g. complex numbers, undefined, or symbolic)
+    return { text: '⚠️', isError: true, isLatex: false, mode: 'decimal' };
   } catch (err) {
-    return { text: 'Syntax Error', isError: true, isLatex: false, mode: 'decimal' };
+    return { text: '⚠️', isError: true, isLatex: false, mode: 'decimal' };
   }
 }

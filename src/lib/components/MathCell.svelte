@@ -243,11 +243,10 @@
 
   .result-value.is-error {
     color: var(--error-color);
-    font-size: 0.9rem;
+    font-size: 1.15rem;
     font-family: var(--font-sans);
-    background-color: var(--error-bg);
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
+    background-color: transparent;
+    padding: 0;
   }
 
   .format-toggle-btn {
